@@ -1,31 +1,36 @@
 {
-  "options_page": "options.html",
-  "browser_action": {
-    "default_icon": "weeicon.png",
-    "default_title": "Check my links"
-  },
+  "manifest_version": 3,
+  "name": "Check My Links",
+  "version": "3.8.2",
   "description": "Check My Links is a link checker that crawls through your webpage and looks for broken links.",
   "icons": {
     "128": "icon.png"
   },
-  "name": "Check My Links",
-  "permissions": [
-    "activeTab"
-  ],
-  "version": "3.8.2",
-  "manifest_version": 2,
-  "background": {
-    "scripts": [
-      "functions.js",
-      "background.js",
-      "db.js",
-      "check.js"
-    ]
+  "action": {
+    "default_title": "Check my links",
+    "default_popup": "popup.html",
+    "default_icon": "weeicon.png"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
   "content_scripts": [
     {
       "matches": [
         "<all_urls>"
+      ],
+      "js": [
+        "check.js"
       ],
       "css": [
         "css/CMY_styles.css"
@@ -33,7 +38,15 @@
     }
   ],
   "web_accessible_resources": [
-    "options.html"
+    {
+      "resources": [
+        "icon.png",
+        "weeicon.png",
+        "css/CMY_styles.css",
+        "options.html"
+      ],
+      "matches": ["<all_urls>"]
+    }
   ],
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+  "options_page": "options.html"
 }
